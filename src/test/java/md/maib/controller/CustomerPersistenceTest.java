@@ -1,4 +1,4 @@
-package md.maib;
+package md.maib.controller;
 
 import md.maib.entity.Customer;
 import md.maib.repository.CustomerRepository;
@@ -26,10 +26,11 @@ class CustomerPersistenceTest {
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
+    private final CustomerRepository customerRepository;
+
     public CustomerPersistenceTest(@Autowired CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
-    private final CustomerRepository customerRepository;
 
     @BeforeAll
     static void beforeAll() {
@@ -59,7 +60,7 @@ class CustomerPersistenceTest {
 
         var customerId = savedCustomer.getId();
         var retrievedCustomer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                    .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         assertEquals(savedCustomer, retrievedCustomer);
     }
