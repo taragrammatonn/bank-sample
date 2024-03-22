@@ -26,6 +26,7 @@ class CustomerPersistenceTest {
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
+
     private final CustomerRepository customerRepository;
 
     public CustomerPersistenceTest(@Autowired CustomerRepository customerRepository) {
@@ -60,7 +61,7 @@ class CustomerPersistenceTest {
 
         var customerId = savedCustomer.getId();
         var retrievedCustomer = customerRepository.findById(customerId)
-                    .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         assertEquals(savedCustomer, retrievedCustomer);
     }

@@ -25,8 +25,8 @@ public class Customer {
     @Column(name = "pan", nullable = false, unique = true, length = 16)
     private String pan;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Transaction> transactions;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Transaction> transactions ;
 
     public static class Builder {
         private Long id;
