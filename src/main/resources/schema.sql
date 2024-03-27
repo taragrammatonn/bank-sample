@@ -12,3 +12,15 @@ CREATE TABLE IF NOT EXISTS transactions (
                               amount NUMERIC(10, 2) NOT NULL,
                               transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO users (user_id, first_name, last_name, pan, cvv)
+SELECT 1, 'John', 'Doe', '1234567890123456', '123'
+WHERE NOT EXISTS (
+    SELECT 1 FROM users WHERE pan = '1234567890123456'
+);
+
+INSERT INTO users (user_id, first_name, last_name, pan, cvv)
+SELECT 2, 'Jane', 'Doe', '1234567890123457', '123'
+WHERE NOT EXISTS (
+    SELECT 1 FROM users WHERE pan = '1234567890123457'
+);
