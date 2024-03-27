@@ -11,8 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +31,6 @@ class CustomerServiceImplTest {
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @BeforeAll
     static void beforeAll() {
@@ -77,9 +76,10 @@ class CustomerServiceImplTest {
     @Test
     void shouldUpdateCustomerById() {
         var updatedDetails = prepareUpdatedCustomerDetails();
-        var updatedCustomer = customerService.updateCustomerById(prepareUpdatedCustomerDetails().getId(), updatedDetails);
+        var updatedCustomer = customerService.updateCustomerById(1L, updatedDetails);
 
         assertEquals(updatedCustomer, updatedDetails);
+        assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
     }
 
     @Test
