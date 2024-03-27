@@ -1,7 +1,6 @@
 package md.maib.service.impl;
 
 import md.maib.entity.Customer;
-import md.maib.repository.CustomerRepository;
 import md.maib.service.CustomerService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,8 +29,6 @@ class CustomerServiceImplTest {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @BeforeAll
     static void beforeAll() {
@@ -77,9 +74,9 @@ class CustomerServiceImplTest {
     @Test
     void shouldUpdateCustomerById() {
         var updatedDetails = prepareUpdatedCustomerDetails();
-        var updatedCustomer = customerService.updateCustomerById(prepareUpdatedCustomerDetails().getId(), updatedDetails);
+        var updatedCustomer = customerService.updateCustomerById(1L, updatedDetails);
 
-        assertEquals(updatedCustomer, updatedDetails);
+        assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
     }
 
     @Test
