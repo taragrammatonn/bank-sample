@@ -29,7 +29,6 @@ public class JdbcConfig {
         if (instance == null) {
             throw new IllegalStateException("JdbcConfig instance has not been initialized by Spring");
         }
-        Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection(instance.url, instance.username, instance.password);
     }
 }
