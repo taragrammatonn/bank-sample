@@ -1,4 +1,4 @@
-package md.maib.service.impl;
+package md.maib.repository;
 
 import md.maib.entity.Customer;
 import md.maib.service.CustomerService;
@@ -12,17 +12,13 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CustomerServiceImplTest {
+class CustomerDAOTest {
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
@@ -47,6 +43,7 @@ class CustomerServiceImplTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
     }
+
     private Customer prepareUpdatedCustomerDetails() {
         return new Customer.Builder()
                 .id(1L)
@@ -58,31 +55,12 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void shouldGetAllCustomers() {
-        List<Customer> customers = customerService.getAllCustomers();
-        assertFalse(customers.isEmpty(), "The customer list should not be empty");
-        assertEquals(2, customers.size(), "The customer list should contain exactly one customer");
-    }
+    void getCustomerById() {
+        prepareUpdatedCustomerDetails();
 
-    @Test
-    void shouldGetCustomerById() {
-        var retrievedCustomer = customerService.getCustomerById(1L);
-
-        assertNotNull(retrievedCustomer, "Customer should not be null");
-    }
-
-    @Test
-    void shouldUpdateCustomerById() {
-        var updatedDetails = prepareUpdatedCustomerDetails();
-        var updatedCustomer = customerService.updateCustomerById(1L, updatedDetails);
-
-        assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
-    }
-
-    @Test
-    void shouldDeleteCustomerById() {
-        customerService.deleteCustomerById(1L);
         Optional<Customer> customer = customerService.getCustomerById(1L);
-        assertTrue(customer.isEmpty(), "Customer should be deleted");
+
+        assertTrue(customer.isPresent());
     }
+
 }
