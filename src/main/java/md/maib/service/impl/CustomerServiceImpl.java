@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.getAllCustomers();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 

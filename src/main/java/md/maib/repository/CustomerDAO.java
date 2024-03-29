@@ -71,6 +71,7 @@ public class CustomerDAO {
         return Optional.ofNullable(customer);
     }
 
+
     public List<Customer> getAllCustomers() throws SQLException {
         List<Customer> customers = new ArrayList<>();
         String SQL = "SELECT * FROM users";

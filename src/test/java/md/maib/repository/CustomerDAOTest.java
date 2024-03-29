@@ -50,5 +50,4 @@ class CustomerDAOTest {
 
         assertTrue(retrievedCustomer.isPresent());
     }
-
 }

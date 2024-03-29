@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,7 +11,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>bank-sample</name>
     <description>demo bank-sample</description>
-
     <properties>
         <java.version>21</java.version>
         <jacoco.version>0.8.11</jacoco.version>
@@ -21,7 +18,6 @@
         <sonar.organization>taragrammatonn</sonar.organization>
         <testcontainers.version>1.19.3</testcontainers.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -40,7 +36,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -57,7 +52,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <profiles>
         <profile>
             <build>
@@ -86,7 +80,6 @@
             <id>coverage</id>
         </profile>
     </profiles>
-
     <build>
         <plugins>
             <plugin>
