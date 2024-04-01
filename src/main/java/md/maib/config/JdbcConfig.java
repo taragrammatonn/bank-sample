@@ -22,14 +22,14 @@ public class JdbcConfig {
     private static JdbcConfig instance;
 
     public JdbcConfig() {
-        instance = this;
+        //method is empty
     }
 
-    public static Connection getConnection() throws SQLException, ClassNotFoundException {
+    public static Connection getConnection() throws SQLException {
         if (instance == null) {
             throw new IllegalStateException("JdbcConfig instance has not been initialized by Spring");
         }
-        Class.forName("org.postgresql.Driver");
+
         return DriverManager.getConnection(instance.url, instance.username, instance.password);
     }
 }

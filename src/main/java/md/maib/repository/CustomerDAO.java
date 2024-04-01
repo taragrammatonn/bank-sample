@@ -22,10 +22,10 @@ public class CustomerDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDAO.class);
 
     public Optional<Customer> getCustomerById(Long id) {
-        String SQL = "SELECT * FROM users WHERE user_id = ?";
+        String sql = "SELECT * FROM users WHERE user_id = ?";
 
         try (Connection conn = JdbcConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -40,7 +40,7 @@ public class CustomerDAO {
                         .build();
                 return Optional.of(customer);
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             LOGGER.error("Get customer by ID from database failed", e);
         }
         return Optional.empty();
@@ -49,11 +49,11 @@ public class CustomerDAO {
 
     public List<Customer> getAllCustomers() throws SQLException {
         List<Customer> customers = new ArrayList<>();
-        String SQL = "SELECT * FROM users";
+        String sql = "SELECT * FROM users";
 
         try (Connection conn = JdbcConfig.getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(SQL)) {
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Customer customer = new Customer.Builder()
@@ -65,17 +65,17 @@ public class CustomerDAO {
                         .build();
                 customers.add(customer);
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             LOGGER.error("Get all customers operation failed", e);
         }
         return customers;
     }
 
     public Customer updateCustomerById(Long id, Customer customerDetails) {
-        String SQL = "UPDATE users SET first_name = ?, last_name = ?, pan = ?, cvv = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET first_name = ?, last_name = ?, pan = ?, cvv = ? WHERE user_id = ?";
 
         try (Connection conn = JdbcConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, customerDetails.getFirstName());
             pstmt.setString(2, customerDetails.getLastName());
@@ -84,23 +84,23 @@ public class CustomerDAO {
             pstmt.setLong(5, id);
 
             pstmt.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             LOGGER.error("Update customer operation failed", e);
         }
         return customerDetails;
     }
 
     public void deleteCustomerById(Long id) {
-        String SQL = "DELETE FROM users WHERE user_id = ?";
+        String sql = "DELETE FROM users WHERE user_id = ?";
 
         try (Connection conn = JdbcConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, id);
 
             pstmt.executeUpdate();
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             LOGGER.error("Delete customer operation failed", e);
         }
     }
