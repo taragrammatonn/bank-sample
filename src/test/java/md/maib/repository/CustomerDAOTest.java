@@ -51,6 +51,7 @@ class CustomerDAOTest {
                 .lastName("Smith")
                 .pan("4321")
                 .cvv("765")
+                .age(25)
                 .build();
     }
 
@@ -62,5 +63,4 @@ class CustomerDAOTest {
 
         assertTrue(customer.isPresent());
     }
-
 }

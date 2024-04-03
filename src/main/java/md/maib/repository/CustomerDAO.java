@@ -1,6 +1,7 @@
 package md.maib.repository;
 
 import md.maib.config.JdbcConfig;
+import md.maib.entity.Address;
 import md.maib.entity.Customer;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,11 @@ public class CustomerDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDAO.class);
 
     public Optional<Customer> getCustomerById(Long id) {
-        String SQL = "SELECT * FROM users WHERE user_id = ?";
+        String SQL = "SELECT u.*, a.address_id, a.street, a.city, a.state, a.zip_code, a.country " +
+                "FROM users u LEFT JOIN addresses a ON u.user_id = a.user_id " +
+                "WHERE u.user_id = ?";
+
+        Customer customer = null;
 
         try (Connection conn = JdbcConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
@@ -30,20 +35,41 @@ public class CustomerDAO {
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                Customer customer = new Customer.Builder()
-                        .id(rs.getLong("user_id"))
-                        .firstName(rs.getString("first_name"))
-                        .lastName(rs.getString("last_name"))
-                        .pan(rs.getString("pan"))
-                        .cvv(rs.getString("cvv"))
-                        .build();
-                return Optional.of(customer);
+            List<Address> addresses = new ArrayList<>();
+
+            while (rs.next()) {
+                if (customer == null) { // Initialize customer and its direct properties once
+                    customer = new Customer.Builder()
+                            .id(rs.getLong("user_id"))
+                            .firstName(rs.getString("first_name"))
+                            .lastName(rs.getString("last_name"))
+                            .pan(rs.getString("pan"))
+                            .cvv(rs.getString("cvv"))
+                            .age(rs.getInt("age"))
+                            .build();
+                }
+                // Check if the address exists (not all customers might have addresses)
+                long addressId = rs.getLong("address_id");
+                if (addressId > 0) { // This assumes address_id is not nullable; adjust accordingly
+                    Address address = new Address.Builder()
+                            .id(addressId)
+                            .street(rs.getString("street"))
+                            .city(rs.getString("city"))
+                            .state(rs.getString("state"))
+                            .zipCode(rs.getString("zip_code"))
+                            .country(rs.getString("country"))
+                            .build();
+                    addresses.add(address);
+                }
+            }
+            if (customer != null) {
+                customer.setAddresses(addresses); // Set the addresses to the customer
             }
         } catch (SQLException | ClassNotFoundException e) {
             LOGGER.error("Get customer by ID from database failed", e);
+            return Optional.empty();
         }
-        return Optional.empty();
+        return Optional.ofNullable(customer);
     }
 
 
@@ -62,6 +88,7 @@ public class CustomerDAO {
                         .lastName(rs.getString("last_name"))
                         .pan(rs.getString("pan"))
                         .cvv(rs.getString("cvv"))
+                        .age(rs.getInt("age"))
                         .build();
                 customers.add(customer);
             }
@@ -72,7 +99,7 @@ public class CustomerDAO {
     }
 
     public Customer updateCustomerById(Long id, Customer customerDetails) {
-        String SQL = "UPDATE users SET first_name = ?, last_name = ?, pan = ?, cvv = ? WHERE user_id = ?";
+        String SQL = "UPDATE users SET first_name = ?, last_name = ?, pan = ?, cvv = ?, age = ? WHERE user_id = ?";
 
         try (Connection conn = JdbcConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
@@ -81,7 +108,8 @@ public class CustomerDAO {
             pstmt.setString(2, customerDetails.getLastName());
             pstmt.setString(3, customerDetails.getPan());
             pstmt.setString(4, customerDetails.getCvv());
-            pstmt.setLong(5, id);
+            pstmt.setInt(5, customerDetails.getAge());
+            pstmt.setLong(6, id);
 
             pstmt.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
@@ -90,18 +118,56 @@ public class CustomerDAO {
         return customerDetails;
     }
 
-    public void deleteCustomerById(Long id) {
-        String SQL = "DELETE FROM users WHERE user_id = ?";
+    public boolean deleteCustomerAndRelatedData(Long id) {
+        Connection conn = null;
+        try {
+            conn = JdbcConfig.getConnection();
+            conn.setAutoCommit(false);
 
-        try (Connection conn = JdbcConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            String deletePhoneNumbersSQL = "DELETE FROM phone_numbers WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deletePhoneNumbersSQL)) {
+                pstmt.setLong(1, id);
+                pstmt.executeUpdate();
+            }
 
-            pstmt.setLong(1, id);
+            String deleteAddressesSQL = "DELETE FROM addresses WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteAddressesSQL)) {
+                pstmt.setLong(1, id);
+                pstmt.executeUpdate();
+            }
 
-            pstmt.executeUpdate();
+            String deleteTransactionSQL = "DELETE FROM transactions WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteTransactionSQL)) {
+                pstmt.setLong(1, id);
+                pstmt.executeUpdate();
+            }
 
+            String deleteCustomerSQL = "DELETE FROM users WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteCustomerSQL)) {
+                pstmt.setLong(1, id);
+                pstmt.executeUpdate();
+            }
+
+            conn.commit(); // Transaction commit if all operations succeed
+            return true;
         } catch (SQLException | ClassNotFoundException e) {
-            LOGGER.error("Delete customer operation failed", e);
+            if (conn != null) {
+                try {
+                    conn.rollback(); // Transaction rollback on error
+                } catch (SQLException ex) {
+                    LOGGER.error("Rollback failed", ex);
+                }
+            }
+            LOGGER.error("Delete customer and related data operation failed", e);
+            return false;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true); // Reset auto-commit
+                } catch (SQLException e) {
+                    LOGGER.error("Auto-commit reset failed", e);
+                }
+            }
         }
     }
 }

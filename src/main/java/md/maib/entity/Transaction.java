@@ -18,6 +18,14 @@ public class Transaction {
     public Transaction() {
     }
 
+    public Transaction(Long transactionId, Customer customer, BigDecimal amount, LocalDateTime transactionDate) {
+
+        this.transactionId = transactionId;
+        this.customer = customer;
+        this.amount = amount;
+        this.transactionDate = transactionDate;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")

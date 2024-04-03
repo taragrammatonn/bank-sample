@@ -1,4 +1,4 @@
-package md.maib;
+package md.maib.entity;
 
 import md.maib.entity.Customer;
 import md.maib.entity.Transaction;

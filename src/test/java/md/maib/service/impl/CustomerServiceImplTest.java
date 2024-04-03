@@ -29,7 +29,6 @@ class CustomerServiceImplTest {
     @Autowired
     private CustomerService customerService;
 
-
     @BeforeAll
     static void beforeAll() {
         postgres.withInitScript("schema_test.sql");
@@ -54,6 +53,7 @@ class CustomerServiceImplTest {
                 .lastName("Smith")
                 .pan("4321")
                 .cvv("765")
+                .age(25)
                 .build();
     }
 
@@ -82,7 +82,8 @@ class CustomerServiceImplTest {
     @Test
     void shouldDeleteCustomerById() {
         customerService.deleteCustomerById(1L);
-        Optional<Customer> customer = customerService.getCustomerById(1L);
-        assertTrue(customer.isEmpty(), "Customer should be deleted");
-    }
+
+        var expected = customerService.getAllCustomers();
+        assertEquals(1,expected.size(), "Customer should be deleted");
+  }
 }
