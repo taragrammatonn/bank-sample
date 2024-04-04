@@ -24,7 +24,7 @@ INSERT INTO users (user_id, first_name, last_name, pan, cvv, age)
 SELECT 1, 'John', 'Doe', '1234567890123456', '123', 25
     WHERE NOT EXISTS (
     SELECT 1 FROM users WHERE pan = '1234567890123456'
-);
+                     );
 
 INSERT INTO users (user_id, first_name, last_name, pan, cvv, age)
 SELECT 2, 'Jane', 'Doe', '1234567890123457', '123', 25
