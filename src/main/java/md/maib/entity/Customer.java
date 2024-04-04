@@ -1,6 +1,7 @@
 package md.maib.entity;
 
 import jakarta.persistence.*;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -25,8 +26,14 @@ public class Customer {
     @Column(name = "pan", nullable = false, unique = true, length = 16)
     private String pan;
 
+    @Column(name = "age", nullable = false)
+    private int age;
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Transaction> transactions;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Address> addresses;
 
     public static class Builder {
         private Long id;
@@ -34,6 +41,7 @@ public class Customer {
         private String lastName;
         private String pan;
         private String cvv;
+        private int age;
 
         public Builder id(Long id) {
             this.id = id;
@@ -60,6 +68,11 @@ public class Customer {
             return this;
         }
 
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+
         public Customer build() {
             Customer customer = new Customer();
             customer.setId(this.id);
@@ -67,8 +80,17 @@ public class Customer {
             customer.setLastName(this.lastName);
             customer.setPan(this.pan);
             customer.setCvv(this.cvv);
+            customer.setAge(this.age);
             return customer;
         }
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public Long getId() {
@@ -114,22 +136,48 @@ public class Customer {
     public String getFullName() {
         return firstName + " " + lastName;
     }
+
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     public List<Transaction> getTransactions() {
         return transactions;
     }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) && Objects.equals(cvv, customer.cvv) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(pan, customer.pan);
+
+        if (age != customer.age) return false;
+        if (!Objects.equals(id, customer.id)) return false;
+        if (!Objects.equals(cvv, customer.cvv)) return false;
+        if (!Objects.equals(firstName, customer.firstName)) return false;
+        if (!Objects.equals(lastName, customer.lastName)) return false;
+        if (!Objects.equals(pan, customer.pan)) return false;
+        return Objects.equals(transactions, customer.transactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cvv, firstName, lastName, pan);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (cvv != null ? cvv.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (pan != null ? pan.hashCode() : 0);
+        result = 31 * result + age;
+        result = 31 * result + (transactions != null ? transactions.hashCode() : 0);
+        return result;
     }
 }

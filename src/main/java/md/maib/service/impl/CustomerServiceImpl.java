@@ -41,6 +41,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomerById(Long id) {
-        customerDAO.deleteCustomerById(id);
+        customerDAO.deleteCustomerAndRelatedData(id);
     }
 }
