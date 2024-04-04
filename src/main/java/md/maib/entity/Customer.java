@@ -155,25 +155,12 @@ public class Customer {
         if (o == null || getClass() != o.getClass()) return false;
 
         Customer customer = (Customer) o;
-
-        if (age != customer.age) return false;
-        if (!Objects.equals(id, customer.id)) return false;
-        if (!Objects.equals(cvv, customer.cvv)) return false;
-        if (!Objects.equals(firstName, customer.firstName)) return false;
-        if (!Objects.equals(lastName, customer.lastName)) return false;
-        if (!Objects.equals(pan, customer.pan)) return false;
-        return Objects.equals(transactions, customer.transactions);
+        return Objects.equals(id, customer.id) && Objects.equals(cvv, customer.cvv) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(pan, customer.pan) && Objects.equals(age, customer.age);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (cvv != null ? cvv.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (pan != null ? pan.hashCode() : 0);
-        result = 31 * result + age;
-        result = 31 * result + (transactions != null ? transactions.hashCode() : 0);
-        return result;
+        return Objects.hash(id, cvv, firstName, lastName, pan, age);
     }
+
 }
