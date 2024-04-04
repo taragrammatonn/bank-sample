@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -32,6 +33,37 @@ public class Transaction {
 
     @Column(name = "transaction_date", nullable = false)
     private LocalDateTime transactionDate;
+
+    public static class Builder {
+        private Long transactionId;
+        private Customer customer;
+        private BigDecimal amount;
+        private LocalDateTime transactionDate;
+
+        public Builder transactionId(Long transactionId) {
+            this.transactionId = transactionId;
+            return this;
+        }
+
+        public Builder customer(Customer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public Builder amount(BigDecimal amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public Builder transactionDate(LocalDateTime transactionDate) {
+            this.transactionDate = transactionDate;
+            return this;
+        }
+
+        public Transaction build() {
+            return new Transaction(customer, amount, transactionDate);
+        }
+    }
 
     public Transaction(Customer customer, BigDecimal amount, LocalDateTime transactionDate) {
         this.customer = customer;
