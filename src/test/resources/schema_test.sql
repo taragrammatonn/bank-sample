@@ -47,4 +47,5 @@ INSERT INTO addresses values (2, 2, '124 Main St', 'Anytown', 'NY', '12345', 'US
 --Transactions
 
 INSERT INTO transactions values (1, 1, 100.00, '2020-01-01 00:00:00');
-INSERT INTO transactions values (2, 2, 200.00, '2020-01-01 00:00:00');
+INSERT INTO transactions values (2, 1, 350.00, '2020-01-01 00:00:00');
+INSERT INTO transactions values (3, 2, 200.00, '2020-01-01 00:00:00');

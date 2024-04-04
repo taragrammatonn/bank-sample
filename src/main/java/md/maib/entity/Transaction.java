@@ -47,6 +47,37 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
 
+    public static class Builder {
+        private Long transactionId;
+        private Customer customer;
+        private BigDecimal amount;
+        private LocalDateTime transactionDate;
+
+        public Builder transactionId(Long transactionId) {
+            this.transactionId = transactionId;
+            return this;
+        }
+
+        public Builder customer(Customer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public Builder amount(BigDecimal amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public Builder transactionDate(LocalDateTime transactionDate) {
+            this.transactionDate = transactionDate;
+            return this;
+        }
+
+        public Transaction build() {
+            return new Transaction(transactionId, customer, amount, transactionDate);
+        }
+    }
+
     public Long getTransactionId() {
         return transactionId;
     }
