@@ -44,22 +44,10 @@ class CustomerDAOTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    private Customer prepareUpdatedCustomerDetails() {
-        return new Customer.Builder()
-                .id(1L)
-                .firstName("Jane")
-                .lastName("Smith")
-                .pan("4321")
-                .cvv("765")
-                .build();
-    }
-
     @Test
     void getCustomerById() {
-        prepareUpdatedCustomerDetails();
+       var retrievedCustomer = customerService.getCustomerById(1L);
 
-        Optional<Customer> customer = customerService.getCustomerById(1L);
-
-        assertTrue(customer.isPresent());
+        assertTrue(retrievedCustomer.isPresent());
     }
 }

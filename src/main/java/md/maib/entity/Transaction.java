@@ -35,6 +35,7 @@ public class Transaction {
     private LocalDateTime transactionDate;
 
     public static class Builder {
+
         private Long transactionId;
         private Customer customer;
         private BigDecimal amount;
