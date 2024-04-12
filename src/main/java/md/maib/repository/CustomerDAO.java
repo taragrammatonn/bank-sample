@@ -21,10 +21,10 @@ import org.slf4j.LoggerFactory;
 
 @Component
 public class CustomerDAO {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDAO.class);
 
     public Optional<Customer> getCustomerById(Long id) {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
         //select all users and their transactions
         String SQL = "SELECT users.*, transactions.* from users " +
                 "LEFT JOIN transactions ON users.user_id = transactions.user_id " +
@@ -34,7 +34,7 @@ public class CustomerDAO {
         Map<Long, Transaction> transactions = new HashMap<>();
 
         try (Connection conn = JdbcConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -74,11 +74,11 @@ public class CustomerDAO {
 
     public List<Customer> getAllCustomers() throws SQLException {
         List<Customer> customers = new ArrayList<>();
-        String SQL = "SELECT * FROM users";
+        String sql = "SELECT * FROM users";
 
         try (Connection conn = JdbcConfig.getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(SQL)) {
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Customer customer = new Customer.Builder()
@@ -98,10 +98,11 @@ public class CustomerDAO {
     }
 
     public Customer updateCustomerById(Long id, Customer customerDetails) {
+        String sql = "UPDATE users SET first_name = ?, last_name = ?, pan = ?, cvv = ? WHERE user_id = ?";
         String SQL = "UPDATE users SET first_name = ?, last_name = ?, pan = ?, cvv = ?, age = ? WHERE user_id = ?";
 
         try (Connection conn = JdbcConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, customerDetails.getFirstName());
             pstmt.setString(2, customerDetails.getLastName());
@@ -117,6 +118,13 @@ public class CustomerDAO {
         return customerDetails;
     }
 
+    public void deleteCustomerById(Long id) {
+        String sql = "DELETE FROM users WHERE user_id = ?";
+
+        try (Connection conn = JdbcConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, id);
     public boolean deleteCustomerAndRelatedData(Long id) {
         Connection conn = null;
         try {
