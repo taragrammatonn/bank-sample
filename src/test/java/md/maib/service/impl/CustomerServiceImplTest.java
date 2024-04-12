@@ -4,6 +4,7 @@ import md.maib.entity.Customer;
 import md.maib.service.CustomerService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,12 +14,10 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,7 +27,6 @@ class CustomerServiceImplTest {
 
     @Autowired
     private CustomerService customerService;
-
 
     @BeforeAll
     static void beforeAll() {
@@ -47,6 +45,7 @@ class CustomerServiceImplTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
     }
+
     private Customer prepareUpdatedCustomerDetails() {
         return new Customer.Builder()
                 .id(1L)
@@ -54,6 +53,7 @@ class CustomerServiceImplTest {
                 .lastName("Smith")
                 .pan("4321")
                 .cvv("765")
+                .age(25)
                 .build();
     }
 
@@ -68,7 +68,7 @@ class CustomerServiceImplTest {
     void shouldGetCustomerById() {
         var retrievedCustomer = customerService.getCustomerById(1L);
 
-        assertNotNull(retrievedCustomer, "Customer should not be null");
+        assertNotNull(retrievedCustomer, "Customer should be retrieved");
     }
 
     @Test
@@ -82,7 +82,8 @@ class CustomerServiceImplTest {
     @Test
     void shouldDeleteCustomerById() {
         customerService.deleteCustomerById(1L);
-        Optional<Customer> customer = customerService.getCustomerById(1L);
-        assertTrue(customer.isEmpty(), "Customer should be deleted");
+
+        var expected = customerService.getAllCustomers();
+        assertEquals(1,expected.size(), "Customer should be deleted");
     }
 }
