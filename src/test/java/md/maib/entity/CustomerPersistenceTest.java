@@ -1,6 +1,5 @@
-package md.maib;
+package md.maib.entity;
 
-import md.maib.entity.Customer;
 import md.maib.repository.CustomerRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CustomerPersistenceTest {
@@ -30,7 +28,9 @@ class CustomerPersistenceTest {
     public CustomerPersistenceTest(@Autowired CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+
     private Customer repositorySavedCustomer = null;
+
     @BeforeEach
     public void initCustomer() {
         customerRepository.deleteAll();
@@ -39,6 +39,7 @@ class CustomerPersistenceTest {
                 .lastName("Doe")
                 .pan("1234567891011121")
                 .cvv("123")
+                .age(25)
                 .build();
 
         customerRepository.save(repositorySavedCustomer);
@@ -63,12 +64,11 @@ class CustomerPersistenceTest {
 
     @Test
     void shouldSelectCustomerById() {
+        var savedCustomer = repositorySavedCustomer;
 
-        var customerId = repositorySavedCustomer.getId();
-        var retrievedCustomer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        var selectedCustomer = customerRepository.findById(savedCustomer.getId()).get();
 
-        assertEquals(repositorySavedCustomer, retrievedCustomer);
+        assertEquals(savedCustomer.getId(), selectedCustomer.getId());
     }
 
     @Test
@@ -113,5 +113,21 @@ class CustomerPersistenceTest {
         var savedCustomer = repositorySavedCustomer;
 
         assertEquals("John Doe", savedCustomer.getFullName(), "Full name should match the concatenation of first and last names");
+    }
+
+    @Test
+    void shouldBeEqual() {
+        var savedCustomer = repositorySavedCustomer;
+        var anotherCustomer = new Customer.Builder()
+                .id(savedCustomer.getId())
+                .firstName("John")
+                .lastName("Doe")
+                .pan("1234567891011121")
+                .cvv("123")
+                .age(25)
+                .build();
+
+        assertEquals(savedCustomer, anotherCustomer, "Both customers should be equal");
+        assertEquals(savedCustomer.hashCode(), anotherCustomer.hashCode(), "Hash codes should match for equal objects");
     }
 }

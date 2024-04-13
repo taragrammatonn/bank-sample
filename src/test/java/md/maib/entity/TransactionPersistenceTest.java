@@ -1,7 +1,6 @@
-package md.maib;
+package md.maib.entity;
 
-import md.maib.entity.Customer;
-import md.maib.entity.Transaction;
+import md.maib.mother.AbstractContainerBaseTest;
 import md.maib.repository.CustomerRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TransactionPersistenceTest {

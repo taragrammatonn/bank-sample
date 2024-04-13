@@ -1,17 +1,11 @@
 package md.maib.service.impl;
 
 import md.maib.entity.Customer;
+import md.maib.mother.AbstractContainerBaseTest;
 import md.maib.service.CustomerService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
@@ -19,31 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CustomerServiceImplTest {
+class CustomerServiceImplTest extends AbstractContainerBaseTest {
 
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
-
-    @Autowired
     private CustomerService customerService;
 
-    @BeforeAll
-    static void beforeAll() {
-        postgres.withInitScript("schema_test.sql");
-        postgres.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        postgres.stop();
-    }
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
+    @Autowired
+    CustomerServiceImplTest(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     private Customer prepareUpdatedCustomerDetails() {
@@ -81,9 +58,9 @@ class CustomerServiceImplTest {
 
     @Test
     void shouldDeleteCustomerById() {
-        customerService.deleteCustomerById(1L);
+        customerService.deleteCustomerAndRelatedData(1L);
 
         var expected = customerService.getAllCustomers();
-        assertEquals(1,expected.size(), "Customer should be deleted");
+        assertEquals(1, expected.size(), "Customer should be deleted");
     }
 }
