@@ -13,7 +13,7 @@ public interface CustomerService {
 
         List<Customer> getAllCustomers();
 
-        Customer updateCustomerById(Long id, Customer customerDetails);
+        Customer updateCustomerById(Long id, Customer customerUpdates);
 
         void deleteCustomerAndRelatedData(Long id);
 

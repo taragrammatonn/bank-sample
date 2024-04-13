@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TransactionPersistenceTest {
@@ -75,8 +76,6 @@ class TransactionPersistenceTest {
 
         assertNotNull(firstTransaction.getTransactionDate(), "Transaction should have a date");
         assertEquals(new BigDecimal("100.00"), firstTransaction.getAmount(), "Transaction amount should match");
-
-
     }
     @Test
     void shouldSetAndGetTransactionDetailsCorrectly() {
