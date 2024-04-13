@@ -32,10 +32,20 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Transaction> transactions;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<PhoneNumber> phoneNumbers;
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public int getAge() {
         return age;
     }
 
+    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers){
+        this.phoneNumbers = phoneNumbers;
+    }
 
     public Long getId() {
         return id;
@@ -77,14 +87,6 @@ public class Customer {
         this.cvv = cvv;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
     public String getFullName() {
         return firstName + " " + lastName;
     }
@@ -93,35 +95,29 @@ public class Customer {
         this.transactions = transactions;
     }
 
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Customer customer = (Customer) o;
         return Objects.equals(id, customer.id) && Objects.equals(cvv, customer.cvv) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(pan, customer.pan) && Objects.equals(age, customer.age);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, cvv, firstName, lastName, pan, age);
-    }
-
     public static class Builder {
-
         private Long id;
-        private String cvv;
         private String firstName;
         private String lastName;
         private String pan;
+        private String cvv;
         private int age;
 
         public Builder id(Long id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder cvv(String cvv) {
-            this.cvv = cvv;
             return this;
         }
 
@@ -140,6 +136,11 @@ public class Customer {
             return this;
         }
 
+        public Builder cvv(String cvv) {
+            this.cvv = cvv;
+            return this;
+        }
+
         public Builder age(int age) {
             this.age = age;
             return this;
@@ -147,14 +148,19 @@ public class Customer {
 
         public Customer build() {
             Customer customer = new Customer();
-            customer.setId(id);
-            customer.setCvv(cvv);
-            customer.setFirstName(firstName);
-            customer.setLastName(lastName);
-            customer.setPan(pan);
-            customer.setAge(age);
+            customer.setId(this.id);
+            customer.setFirstName(this.firstName);
+            customer.setLastName(this.lastName);
+            customer.setPan(this.pan);
+            customer.setCvv(this.cvv);
+            customer.setAge(this.age);
             return customer;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, cvv, firstName, lastName, pan, age);
     }
 
 }

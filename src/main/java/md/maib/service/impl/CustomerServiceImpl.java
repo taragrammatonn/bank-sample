@@ -6,19 +6,18 @@ import md.maib.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    private final CustomerDAO customerDAO;
+
     @Autowired
-    public CustomerServiceImpl( CustomerDAO customerDAO) {
+    public CustomerServiceImpl(CustomerDAO customerDAO) {
         this.customerDAO = customerDAO;
     }
-
-    private final CustomerDAO customerDAO;
 
     @Override
     public Optional<Customer> getCustomerById(Long id) {
@@ -27,11 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> getAllCustomers() {
-        try {
-            return customerDAO.getAllCustomers();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return customerDAO.getAllCustomers();
     }
 
     @Override
@@ -40,7 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomerById(Long id) {
+    public void deleteCustomerAndRelatedData(Long id) {
         customerDAO.deleteCustomerAndRelatedData(id);
     }
 }
