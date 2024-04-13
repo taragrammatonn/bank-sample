@@ -80,7 +80,7 @@ public class CustomerDAOPostgresImpl implements CustomerDAO {
                 customer.setPhoneNumbers(new ArrayList<>(phoneNumbers.values()));
                 customer.setTransactions(new ArrayList<>(transactions.values()));
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             LOGGER.error("Get customer by ID from database failed", e);
             return Optional.empty();
         }
@@ -106,7 +106,7 @@ public class CustomerDAOPostgresImpl implements CustomerDAO {
                         .build();
                 customers.add(customer);
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             LOGGER.error("Get all customers operation failed", e);
         }
         return customers;
@@ -126,7 +126,7 @@ public class CustomerDAOPostgresImpl implements CustomerDAO {
             pstmt.setLong(6, id);
 
             pstmt.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             LOGGER.error("Update customer operation failed", e);
         }
         return customerDetails;
@@ -158,7 +158,7 @@ public class CustomerDAOPostgresImpl implements CustomerDAO {
             }
 
             conn.commit(); // Transaction commit if all operations succeed
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  e) {
             if (conn != null) {
                 try {
                     conn.rollback(); // Transaction rollback on error

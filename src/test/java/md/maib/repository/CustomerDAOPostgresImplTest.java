@@ -1,6 +1,5 @@
 package md.maib.repository;
 
-import md.maib.entity.Customer;
 import md.maib.service.CustomerService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
