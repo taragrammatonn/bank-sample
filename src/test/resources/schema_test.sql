@@ -13,6 +13,17 @@ CREATE TABLE IF NOT EXISTS phone_numbers (
     phone_number VARCHAR(15) UNIQUE NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS addresses (
+    address_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id),
+    street VARCHAR(255) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    zip_code VARCHAR(10),
+    country VARCHAR(50) NOT NULL
+);
+
+
 CREATE TABLE IF NOT EXISTS transactions (
     transaction_id SERIAL PRIMARY KEY,
     user_id BIGINT REFERENCES users(user_id),
@@ -27,6 +38,11 @@ INSERT INTO users values (2, 'Jane', 'Doe', '1234567890123457', '123', 25);
 
 INSERT INTO phone_numbers values (1, 1, '1234567890');
 INSERT INTO phone_numbers values (2, 2, '1234567891');
+
+--Addresses
+
+INSERT INTO addresses values (1, 1, '123 Main St', 'Anytown', 'NY', '12345', 'USA');
+INSERT INTO addresses values (2, 2, '124 Main St', 'Anytown', 'NY', '12345', 'USA');
 
 --Transactions
 

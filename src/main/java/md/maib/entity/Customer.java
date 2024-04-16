@@ -35,16 +35,66 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PhoneNumber> phoneNumbers;
 
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Address> addresses;
+
+    public static class Builder {
+        private Long id;
+        private String firstName;
+        private String lastName;
+        private String pan;
+        private String cvv;
+        private int age;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder pan(String pan) {
+            this.pan = pan;
+            return this;
+        }
+
+        public Builder cvv(String cvv) {
+            this.cvv = cvv;
+            return this;
+        }
+
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public Customer build() {
+            Customer customer = new Customer();
+            customer.setId(this.id);
+            customer.setFirstName(this.firstName);
+            customer.setLastName(this.lastName);
+            customer.setPan(this.pan);
+            customer.setCvv(this.cvv);
+            customer.setAge(this.age);
+            return customer;
+        }
+    }
+
     public void setAge(int age) {
         this.age = age;
     }
 
     public int getAge() {
         return age;
-    }
-
-    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers){
-        this.phoneNumbers = phoneNumbers;
     }
 
     public Long getId() {
@@ -95,8 +145,20 @@ public class Customer {
         this.transactions = transactions;
     }
 
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     public List<Transaction> getTransactions() {
         return transactions;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers){
+        this.phoneNumbers = phoneNumbers;
     }
 
     @Override
@@ -106,56 +168,6 @@ public class Customer {
 
         Customer customer = (Customer) o;
         return Objects.equals(id, customer.id) && Objects.equals(cvv, customer.cvv) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(pan, customer.pan) && Objects.equals(age, customer.age);
-    }
-
-    public static class Builder {
-        private Long id;
-        private String firstName;
-        private String lastName;
-        private String pan;
-        private String cvv;
-        private int age;
-
-        public Builder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder firstName(String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
-        public Builder lastName(String lastName) {
-            this.lastName = lastName;
-            return this;
-        }
-
-        public Builder pan(String pan) {
-            this.pan = pan;
-            return this;
-        }
-
-        public Builder cvv(String cvv) {
-            this.cvv = cvv;
-            return this;
-        }
-
-        public Builder age(int age) {
-            this.age = age;
-            return this;
-        }
-
-        public Customer build() {
-            Customer customer = new Customer();
-            customer.setId(this.id);
-            customer.setFirstName(this.firstName);
-            customer.setLastName(this.lastName);
-            customer.setPan(this.pan);
-            customer.setCvv(this.cvv);
-            customer.setAge(this.age);
-            return customer;
-        }
     }
 
     @Override
