@@ -151,6 +151,12 @@ public class CustomerDAOPostgresImpl implements CustomerDAO {
                 pstmt.executeUpdate();
             }
 
+            String deleteAddressesSQL = "DELETE FROM addresses WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteAddressesSQL)) {
+                pstmt.setLong(1, id);
+                pstmt.executeUpdate();
+            }
+
             String deleteCustomerSQL = "DELETE FROM users WHERE user_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(deleteCustomerSQL)) {
                 pstmt.setLong(1, id);
