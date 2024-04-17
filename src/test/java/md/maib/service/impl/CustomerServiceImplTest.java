@@ -51,7 +51,7 @@ class CustomerServiceImplTest extends AbstractContainerBaseTest {
     @Test
     void shouldUpdateCustomerById() {
         var updatedDetails = prepareUpdatedCustomerDetails();
-        var updatedCustomer = customerService.updateCustomerById(1L, updatedDetails);
+        var updatedCustomer = customerService.updateCustomerById(updatedDetails);
 
         assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
     }

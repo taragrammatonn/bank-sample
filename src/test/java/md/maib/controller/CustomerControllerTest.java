@@ -104,13 +104,14 @@ class CustomerControllerTest {
                 .age(25)
                 .build();
 
-        when(customerService.updateCustomerById(1L,updateCustomer)).thenReturn(updateCustomer);
+        when(customerService.updateCustomerById(updateCustomer)).thenReturn(updateCustomer);
 
-        ResponseEntity<Customer> updateResult = customerController.updateCustomerById(1L, updateCustomer);
+        ResponseEntity<Customer> updateResult = customerController.updateCustomerById(updateCustomer);
 
         assertEquals("John", updateResult.getBody().getFirstName());
         assertEquals(HttpStatus.OK, updateResult.getStatusCode());
     }
+
     @Test
     void shouldBeEqual() {
 
