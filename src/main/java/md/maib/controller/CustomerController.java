@@ -44,14 +44,10 @@ public class CustomerController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("api/update-customer/{id}")
-    public ResponseEntity<Customer> updateCustomerById(@PathVariable Long id, @RequestBody Customer customerUpdates) {
-        Customer customer = customerService.updateCustomerById(id, customerUpdates);
-        if (customer != null) {
-            return ResponseEntity.ok(customer); // HTTP 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // HTTP 404 Not Found
-        }
+   @PutMapping("api/update-customer")
+    public ResponseEntity<Customer> updateCustomerById(@RequestBody Customer customer) {
+        Customer updatedCustomer = customerService.updateCustomerById(customer);
+        return ResponseEntity.ok(updatedCustomer);
     }
 }
 

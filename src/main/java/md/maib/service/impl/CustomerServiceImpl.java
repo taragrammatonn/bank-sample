@@ -1,7 +1,7 @@
 package md.maib.service.impl;
 
 import md.maib.entity.Customer;
-import md.maib.repository.CustomerDAO;
+import md.maib.repository.CustomerRepository;
 import md.maib.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,30 +12,30 @@ import java.util.Optional;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerDAO customerDAO;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerDAO customerDAO) {
-        this.customerDAO = customerDAO;
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     @Override
     public Optional<Customer> getCustomerById(Long id) {
-        return customerDAO.getCustomerById(id);
+        return customerRepository.findById(id);
     }
 
     @Override
     public List<Customer> getAllCustomers() {
-        return customerDAO.getAllCustomers();
+        return customerRepository.findAll();
     }
 
     @Override
-    public Customer updateCustomerById(Long id, Customer customerDetails) {
-        return customerDAO.updateCustomerById(id, customerDetails);
+    public Customer updateCustomerById(Customer customerDetails) {
+        return customerRepository.save(customerDetails);
     }
 
     @Override
     public void deleteCustomerAndRelatedData(Long id) {
-        customerDAO.deleteCustomerAndRelatedData(id);
+        customerRepository.deleteById(id);
     }
 }
