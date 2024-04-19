@@ -1,6 +1,6 @@
-package md.maib.service;
+package md.maib.bank.service;
 
-import md.maib.entity.Customer;
+import md.maib.bank.entity.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

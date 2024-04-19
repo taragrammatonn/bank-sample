@@ -1,6 +1,7 @@
-package md.maib.entity;
+package md.maib.bank.entity;
 
-import md.maib.repository.CustomerRepository;
+import md.maib.bank.entity.Customer;
+import md.maib.bank.repository.CustomerRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

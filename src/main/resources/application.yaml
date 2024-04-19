@@ -10,4 +10,8 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect:  org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+security:
+  encryption:
+    key: ryRKW8lntKIJUdmWJh/dBDAzr6kB3aVjBPbJ6z607ck=

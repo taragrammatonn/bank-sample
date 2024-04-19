@@ -2,8 +2,8 @@ CREATE TABLE  IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    pan VARCHAR(16) UNIQUE NOT NULL,
-    cvv VARCHAR(3) NOT NULL,
+    pan TEXT UNIQUE NOT NULL,
+    cvv TEXT NOT NULL,
     age INT NOT NULL
 );
 
@@ -31,20 +31,20 @@ CREATE TABLE IF NOT EXISTS transactions (
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users values (1, 'John', 'Doe', '1234567890123456', '123', 25);
-INSERT INTO users values (2, 'Jane', 'Doe', '1234567890123457', '123', 25);
+INSERT INTO users values ( 'John', 'Doe', 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o=', 'dsElwQ+UpmQdhlTSR4L9pQ==', 25);
+INSERT INTO users values ( 'Jane', 'Doe', 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o=/', 'dsElwQ+UpmQdhlTSR4L9pQ==/', 25);
 
 --Phone Numbers
 
-INSERT INTO phone_numbers values (1, 1, '1234567890');
-INSERT INTO phone_numbers values (2, 2, '1234567891');
+INSERT INTO phone_numbers values (1, '1234567890');
+INSERT INTO phone_numbers values (2, '1234567891');
 
 --Addresses
 
-INSERT INTO addresses values (1, 1, '123 Main St', 'Anytown', 'NY', '12345', 'USA');
-INSERT INTO addresses values (2, 2, '124 Main St', 'Anytown', 'NY', '12345', 'USA');
+INSERT INTO addresses values (1, '123 Main St', 'Anytown', 'NY', '12345', 'USA');
+INSERT INTO addresses values (2, '124 Main St', 'Anytown', 'NY', '12345', 'USA');
 
 --Transactions
 
-INSERT INTO transactions values (1, 1, 100.00, '2020-01-01 00:00:00');
-INSERT INTO transactions values (2, 2, 200.00, '2020-01-01 00:00:00');
+INSERT INTO transactions values (1, 100.00, '2020-01-01 00:00:00');
+INSERT INTO transactions values (2, 200.00, '2020-01-01 00:00:00');

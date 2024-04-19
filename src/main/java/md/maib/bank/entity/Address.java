@@ -1,4 +1,4 @@
-package md.maib.entity;
+package md.maib.bank.entity;
 
 import jakarta.persistence.*;
 
