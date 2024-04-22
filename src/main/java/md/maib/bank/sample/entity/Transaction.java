@@ -1,4 +1,4 @@
-package md.maib.entity;
+package md.maib.bank.sample.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,15 +36,9 @@ public class Transaction {
 
     public static class Builder {
 
-        private Long transactionId;
         private Customer customer;
         private BigDecimal amount;
         private LocalDateTime transactionDate;
-
-        public Builder transactionId(Long transactionId) {
-            this.transactionId = transactionId;
-            return this;
-        }
 
         public Builder customer(Customer customer) {
             this.customer = customer;

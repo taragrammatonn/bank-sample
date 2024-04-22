@@ -1,7 +1,7 @@
-package md.maib.controller;
+package md.maib.bank.sample.controller;
 
-import md.maib.entity.Customer;
-import md.maib.service.CustomerService;
+import md.maib.bank.sample.entity.Customer;
+import md.maib.bank.sample.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
