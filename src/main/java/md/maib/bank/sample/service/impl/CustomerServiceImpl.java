@@ -1,8 +1,8 @@
-package md.maib.service.impl;
+package md.maib.bank.sample.service.impl;
 
-import md.maib.entity.Customer;
-import md.maib.repository.CustomerRepository;
-import md.maib.service.CustomerService;
+import md.maib.bank.sample.entity.Customer;
+import md.maib.bank.sample.repository.CustomerRepository;
+import md.maib.bank.sample.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

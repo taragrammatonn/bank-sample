@@ -1,8 +1,9 @@
-package md.maib.service.impl;
+package md.maib.bank.sample.impl;
 
-import md.maib.entity.Customer;
-import md.maib.mother.AbstractContainerBaseTest;
-import md.maib.service.CustomerService;
+import md.maib.bank.sample.entity.Customer;
+import md.maib.bank.sample.mother.AbstractContainerBaseTest;
+import md.maib.bank.sample.service.CustomerService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CustomerServiceImplTest extends AbstractContainerBaseTest {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @Autowired
     CustomerServiceImplTest(CustomerService customerService) {
@@ -53,7 +54,7 @@ class CustomerServiceImplTest extends AbstractContainerBaseTest {
         var updatedDetails = prepareUpdatedCustomerDetails();
         var updatedCustomer = customerService.updateCustomerById(updatedDetails);
 
-        assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
+        Assertions.assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
     }
 
     @Test
