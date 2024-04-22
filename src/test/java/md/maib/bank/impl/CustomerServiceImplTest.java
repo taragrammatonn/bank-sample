@@ -1,8 +1,8 @@
-package md.maib.service.impl;
+package md.maib.bank.impl;
 
-import md.maib.entity.Customer;
-import md.maib.mother.AbstractContainerBaseTest;
-import md.maib.service.CustomerService;
+import md.maib.bank.entity.Customer;
+import md.maib.bank.mother.AbstractContainerBaseTest;
+import md.maib.bank.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CustomerServiceImplTest extends AbstractContainerBaseTest {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @Autowired
     CustomerServiceImplTest(CustomerService customerService) {

@@ -1,6 +1,6 @@
-package md.maib.entity;
+package md.maib.bank.entity;
 
-import md.maib.mother.AbstractContainerBaseTest;
+import md.maib.bank.mother.AbstractContainerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;

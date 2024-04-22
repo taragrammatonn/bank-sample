@@ -1,4 +1,4 @@
-package md.maib.mother;
+package md.maib.bank.mother;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
