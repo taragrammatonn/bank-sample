@@ -1,12 +1,16 @@
-package md.maib.bank.sample.impl;
+package md.maib.bank.sample.service.impl;
 
 import md.maib.bank.sample.entity.Customer;
-import md.maib.bank.sample.mother.AbstractContainerBaseTest;
 import md.maib.bank.sample.service.CustomerService;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
@@ -14,8 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CustomerServiceImplTest extends AbstractContainerBaseTest {
+class CustomerServiceImplTest {
 
     private final CustomerService customerService;
 
@@ -24,9 +29,27 @@ class CustomerServiceImplTest extends AbstractContainerBaseTest {
         this.customerService = customerService;
     }
 
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
+
     private Customer prepareUpdatedCustomerDetails() {
         return new Customer.Builder()
-                .id(1L)
                 .firstName("Jane")
                 .lastName("Smith")
                 .pan("4321")
@@ -54,7 +77,7 @@ class CustomerServiceImplTest extends AbstractContainerBaseTest {
         var updatedDetails = prepareUpdatedCustomerDetails();
         var updatedCustomer = customerService.updateCustomerById(updatedDetails);
 
-        Assertions.assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
+        assertEquals(updatedDetails, updatedCustomer, "Customer details should be updated");
     }
 
     @Test
