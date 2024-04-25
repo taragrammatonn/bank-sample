@@ -30,13 +30,13 @@ CREATE TABLE IF NOT EXISTS transactions (
 );
 
 INSERT INTO users (first_name, last_name, pan, cvv, age)
-SELECT 'John', 'Doe', 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o=', 'dsElwQ+UpmQdhlTSR4L9pQ==', 25
+SELECT 'John', 'Doe', 'lYTO1TDmje3igpH2eSVm629oSe4MC98KknCsxR8bAww=', 'lYTOBUcAHMJguiFcKFWHR7tyfg==', 25
     WHERE NOT EXISTS (
-    SELECT 1 FROM users WHERE pan = 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o='
+    SELECT 1 FROM users WHERE pan = 'ShRCm2tqNE4nXfs0:tcBV8TTSOjIONADupAOCooVBsjHSsE2GBNw6rStfWcw='
                      );
 
 INSERT INTO users (first_name, last_name, pan, cvv, age)
-SELECT 'Jane', 'Doe', 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o=/', 'dsElwQ+UpmQdhlTSR4L9pQ==/', 25
+SELECT 'Jane', 'Doe', 'lYTO1TDmje3igpH2eSVm629oSe4MC98KknCsxR8bAww=/', 'lYTOBUcAHMJguiFcKFWHR7tyfg==/', 25
     WHERE NOT EXISTS (
-    SELECT 1 FROM users WHERE pan = 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o=/'
+    SELECT 1 FROM users WHERE pan = 'ShRCm2tqNE4nXfs0:tcBV8TTSOjIONADupAOCooVBsjHSsE2GBNw6rStfWcw=/'
 );

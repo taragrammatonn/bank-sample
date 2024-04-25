@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users values ( 'John', 'Doe', 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o=', 'dsElwQ+UpmQdhlTSR4L9pQ==', 25);
-INSERT INTO users values ( 'Jane', 'Doe', 'PiRZg60XDCCRO4fWuAmgPtwskO4Yo7//NB1/vMHtp6o=/', 'dsElwQ+UpmQdhlTSR4L9pQ==/', 25);
+INSERT INTO users values ( 'John', 'Doe', 'lYTO1TDmje3igpH2eSVm629oSe4MC98KknCsxR8bAww=', 'lYTOBUcAHMJguiFcKFWHR7tyfg==', 25);
+INSERT INTO users values ( 'Jane', 'Doe', 'lYTO1TDmje3igpH2eSVm629oSe4MC98KknCsxR8bAww=/', 'lYTOBUcAHMJguiFcKFWHR7tyfg==/', 25);
 
 --Phone Numbers
 
