@@ -2,7 +2,6 @@ spring:
   sql:
     init:
       mode: always
-
   datasource:
     url: jdbc:postgresql://localhost:5432/bank
     username: test
@@ -15,3 +14,4 @@ spring:
 security:
   encryption:
     key: ryRKW8lntKIJUdmWJh/dBDAzr6kB3aVjBPbJ6z607ck=
+    iv: fCIxLGffHE0=
